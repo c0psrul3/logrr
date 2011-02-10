@@ -36,9 +36,9 @@
 <?php endif; ?>
 
 			<h1 class='wi'>Log History</h1>
-			<center><img src="/graph/base/day" /></center>
+			<center><img src="<?php echo $graph; ?>" /></center>
 			
-			<h1 class='wi'>Recent Syslog Messages</h1>
+			<h1 class='wi'><?php echo $title; ?></h1>
 			<p class='intro'>The list below contains all recent syslog messages.</p>
 			
 			<table class='workers'>
@@ -51,7 +51,15 @@
 				</tr>
 				<?php foreach($logs as $log): ?>
 				<tr>
-					<td valign="top"><?php echo $log->ReceivedAt; ?></td>
+					<td valign="top">
+						<?php
+							$system_timezone = new DateTimeZone('UTC');
+							$user_timezone = new DateTimeZone('EST');
+							$date = new DateTime(date('Y-m-d H:i:s', mysql_to_unix($log->ReceivedAt)), $system_timezone);
+							$offset = $user_timezone->getOffset($date);
+							echo date('Y-m-d H:i:s', $date->format('U') + $offset);
+						?>
+					</td>
 					<td valign="top"><a href="/#/host/<?php echo $log->FromHost; ?>"><?php echo $log->FromHost; ?></a></td>
 					<td valign="top"><?php echo str_replace(':', '', $log->SysLogTag); ?></td>
 					<td valign="top">
