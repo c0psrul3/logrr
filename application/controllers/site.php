@@ -76,12 +76,12 @@ class Site extends CI_Controller {
 	/**
 	 *
 	 */
-	function graph($extra = 'base', $period = 'day') {
+	function graph($extra = 'base', $period = 'day', $timezone = 'EST') {
 		
 		require_once APPPATH.'third_party/pData.php';
 		require_once APPPATH.'third_party/pChart.php';
 		
-		$this->_drawGraph($this->_getDayStats('-1 day'), 'Log Messages Received per Hour');
+		$this->_drawGraph($this->_getDayStats('-24 hours', $timezone), sprintf('Log Messages Received per Hour (%s)', $timezone));
 		
 	}
 	
@@ -205,27 +205,26 @@ class Site extends CI_Controller {
 				`ReceivedAt` DESC;
 		";
 		
+		$system_timezone = new DateTimeZone('UTC');
+		$user_timezone = new DateTimeZone($timezone);
+		$next_date = strtotime($timeframe);
+		
 		$CI = get_instance();
 		$result = $CI->db->query($sql, array(
-			date('Y-m-d', strtotime($timeframe))
+			date('Y-m-d', $next_date)
 		));
 		
 		// Populate an array with empty values
 		//
 		$base_dates = array();
-		$current_date = strtotime($timeframe);
-		$system_timezone = new DateTimeZone('UTC');
-		$user_timezone = new DateTimeZone($timezone);
-		while ($current_date < now()) {
-			$date = new DateTime(date('Y-m-d H:'.$this->_roundToDecima($current_date).':00', $current_date), $system_timezone);
+		while ($next_date < now()) {
+			$next_date = strtotime('+1 hour', $next_date);
+			$date = new DateTime(date('Y-m-d H:'.$this->_roundToDecima($next_date).':00', $next_date), $system_timezone);
 			$offset = $user_timezone->getOffset($date);
 			$base_dates[date('H:00:00', $date->format('U') + $offset)] = array( 'count' => 0 );
-			$current_date = strtotime('+1 hour', $current_date);
 		}
 		
 		$return = array();
-		$system_timezone = new DateTimeZone('UTC');
-		$user_timezone = new DateTimeZone($timezone);
 		foreach ($result->result() as $item) {
 			$date = new DateTime(date('Y-m-d H:i:s',mysql_to_unix($item->ReceivedAt)), $system_timezone);
 			$offset = $user_timezone->getOffset($date);
