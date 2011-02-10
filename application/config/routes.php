@@ -41,10 +41,6 @@
 $route['default_controller'] = "site";
 $route['404_override'] = '';
 
-$route['priority/(:any)/?(:any)?/?'] = "/site/priority/$1/$2";
-$route['host/(:any)/?(:any)?/?'] = "/site/host/$1/$2";
-$route['graph/(:any)'] = "/site/graph/$1";
-
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
