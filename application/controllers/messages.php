@@ -36,7 +36,7 @@
             
             $results = $this->_getLogsByPriority($priority, $offset);
             
-            $config['base_url'] = '/#/priority/'.$priority.'/';
+            $config['base_url'] = '/#/messages/priority/'.$priority.'/';
             $config['total_rows'] = $this->_getLogCountByPriority($priority);
             $config['per_page'] = 50;
             $this->pagination->initialize($config);
@@ -61,7 +61,7 @@
             
             $results = $this->_getLogsByHost($host, $offset);
             
-            $config['base_url'] = '/#/host/'.$host.'/';
+            $config['base_url'] = '/#/messages/host/'.$host.'/';
             $config['total_rows'] = $this->_getLogCountByHost($host);
             $config['per_page'] = 50;
             $this->pagination->initialize($config);
