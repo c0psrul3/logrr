@@ -12,9 +12,10 @@ body { padding:0; margin:0; }
 
 .subnav { padding:2px 5% 7px 5%; background:#ce1212; font-size:90%;}
 .subnav li { display:inline;}
-.subnav li a { color:#fff; text-decoration:none; margin-right:10px; display:inline-block; background:#dd5b5b; padding:5px; -webkit-border-radius:3px; -moz-border-radius:3px;}
-.subnav li.current a { background:#fff; font-weight:bold; color:#ce1212;}
+.subnav li a, .subnav button { color:#fff; text-decoration:none; margin-right:10px; display:inline-block; background:#dd5b5b; padding:5px; -webkit-border-radius:3px; -moz-border-radius:3px; border: none;}
+.subnav li.current a, .subnav li a:hover { background:#fff; font-weight:normal; color:#ce1212;}
 .subnav li a:active { background:#b00909;}
+.subnav li.search { color: #FFF; float: right; }
 
 #main { padding:10px 5%; background:#fff; overflow:hidden; }
 #main .logo { float:right; margin:10px;}
