@@ -45,7 +45,9 @@ class Site extends CI_Controller {
 			'logs' => $results,
 			'priorities' => $this->priorities,
 			'priority' => $priority,
-			'offset' => $offset
+			'offset' => $offset,
+			'title' => (($priority != '-1') ? 'Recent Syslog Messages for Priority:'.$this->priorities[$priority] : 'All Recent Syslog Messages'),
+			'graph' => '/graph/'.$priority.'/EST'
 		));
 		
 	}
@@ -68,7 +70,9 @@ class Site extends CI_Controller {
 			'logs' => $results,
 			'priorities' => $this->priorities,
 			'host' => $host,
-			'offset' => $offset
+			'offset' => $offset,
+			'title' => 'Recent Syslog Messages for Host:'.$host,
+			'graph' => '/graph/'.$host.'/EST'
 		));
 		
 	}
@@ -81,7 +85,13 @@ class Site extends CI_Controller {
 		require_once APPPATH.'third_party/pData.php';
 		require_once APPPATH.'third_party/pChart.php';
 		
-		$this->_drawGraph($this->_getDayStats('-24 hours', $timezone), sprintf('Log Messages Received per Hour (%s)', $timezone));
+		if ($extra == '-1') {
+			$this->_drawGraph($this->_getStats('-24 hours', $timezone), sprintf('Log Messages Received per Hour'));
+		} elseif (is_numeric($extra)) {
+			$this->_drawGraph($this->_getStatsByPriority($extra, '-24 hours', $timezone), sprintf('Log Messages Received per Hour for Priority:%s', $this->priorities[$extra]));
+		} else {
+			$this->_drawGraph($this->_getStatsByHost($extra, '-24 hours', $timezone), sprintf('Log Messages Received per Hour for Host:%s', $extra));
+		}
 		
 	}
 	
@@ -190,29 +200,89 @@ class Site extends CI_Controller {
 	/**
 	 *
 	 */
-	function _getDayStats($timeframe, $timezone = 'EST') {
-		
-		$sql = "
-			SELECT 
-				`ReceivedAt`, 
-				COUNT(*) as `count`
-			FROM `SystemEvents`
-			WHERE 
-				`ReceivedAt` >= ?
-			GROUP BY
-				YEAR(`ReceivedAt`), MONTH(`ReceivedAt`), DAY(`ReceivedAt`), HOUR(`ReceivedAt`)
-			ORDER BY 
-				`ReceivedAt` DESC;
-		";
+	function _getStats($timeframe, $timezone = 'EST') {
+		return $this->_getStatsFormatted(1, '', $timeframe, $timezone);
+	}
+	
+	/**
+	 *
+	 */
+	function _getStatsByPriority($priority, $timeframe, $timezone = 'EST') {
+		return $this->_getStatsFormatted(2, $priority, $timeframe, $timezone);
+	}
+	
+	/**
+	 *
+	 */
+	function _getStatsByHost($host, $timeframe, $timezone = 'EST') {
+		return $this->_getStatsFormatted(3, $host, $timeframe, $timezone);
+	}
+	
+	/**
+	 *
+	 */
+	function _getStatsFormatted($type, $extra, $timeframe, $timezone = 'EST') {
 		
 		$system_timezone = new DateTimeZone('UTC');
 		$user_timezone = new DateTimeZone($timezone);
 		$next_date = strtotime($timeframe);
 		
 		$CI = get_instance();
-		$result = $CI->db->query($sql, array(
-			date('Y-m-d', $next_date)
-		));
+		
+		switch ($type) {
+			case 1:
+				$result = $CI->db->query("
+					SELECT 
+						`ReceivedAt`, 
+						COUNT(*) as `count`
+					FROM `SystemEvents`
+					WHERE 
+						`ReceivedAt` >= ?
+					GROUP BY
+						YEAR(`ReceivedAt`), MONTH(`ReceivedAt`), DAY(`ReceivedAt`), HOUR(`ReceivedAt`)
+					ORDER BY 
+						`ReceivedAt` DESC;
+				", array(
+					date('Y-m-d', $next_date)
+				));
+				break;
+			case 2:
+				$result = $CI->db->query("
+					SELECT 
+						`ReceivedAt`, 
+						COUNT(*) as `count`
+					FROM `SystemEvents`
+					WHERE 
+						`ReceivedAt` >= ? AND
+						`Priority` = ?
+					GROUP BY
+						YEAR(`ReceivedAt`), MONTH(`ReceivedAt`), DAY(`ReceivedAt`), HOUR(`ReceivedAt`)
+					ORDER BY 
+						`ReceivedAt` DESC;
+				", array(
+					date('Y-m-d', $next_date),
+					$extra
+				));
+				break;
+			case 3:
+				$result = $CI->db->query("
+					SELECT 
+						`ReceivedAt`, 
+						COUNT(*) as `count`
+					FROM `SystemEvents`
+					WHERE 
+						`ReceivedAt` >= ? AND
+						`FromHost` = ?
+					GROUP BY
+						YEAR(`ReceivedAt`), MONTH(`ReceivedAt`), DAY(`ReceivedAt`), HOUR(`ReceivedAt`)
+					ORDER BY 
+						`ReceivedAt` DESC;
+				", array(
+					date('Y-m-d', $next_date),
+					$extra
+				));
+				break;
+		}
 		
 		// Populate an array with empty values
 		//
