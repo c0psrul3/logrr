@@ -3,6 +3,18 @@
     class Graph extends CI_Controller {
         
         
+        private $priorities = array(
+            '0' => 'Emergency',
+            '1' => 'Alert',
+            '2' => 'Critical',
+            '3' => 'Error',
+            '4' => 'Warning',
+            '5' => 'Notice',
+            '6' => 'Informational',
+            '7' => 'Debug'
+        );
+        
+        
         function __construct() {
             parent::__construct();
             date_default_timezone_set('UTC');
