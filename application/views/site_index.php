@@ -27,7 +27,7 @@
 		
 		<div id="main">
 			
-			<div class="bbq-loading" style="display:none;"><img src="/static/images/ajaxload-15-white.gif" alt="Loading"/>Loading content...</div>
+			<div class="bbq-loading" style="display:none;"><img src="/static/images/ajaxload-15-white.gif" alt="Loading"/>&nbsp;Loading content...</div>
 			
 <?php endif; ?>
 
