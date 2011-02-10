@@ -5,7 +5,7 @@
 <html>
 	
 	<head>
-		<title>LogrrApp</title>
+		<title>Logrr</title>
 		<link href="/static/css/reset.css" media="screen" rel="stylesheet" type="text/css">
 		<link href="/static/css/style.css" media="screen" rel="stylesheet" type="text/css">
 		<script src="/static/js/jquery.1.5.js" type="text/javascript"></script>

@@ -2,7 +2,7 @@
 		</div>
 	
 		<div id="footer">
-			<p>Powered by <a href="rsyslog-web">SyslogWeb</a> version 0.1</p>
+			<p>Powered by <a href="http://github.com/pyhub/logrr">Logrr</a> version 0.1</p>
 		</div>
 	
 		<script type="text/javascript">
