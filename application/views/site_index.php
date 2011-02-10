@@ -16,9 +16,9 @@
 		<div class="header">
 			<img src="/static/images/logo.png" width="" height="" title="Logrr - A Syslog Logging Interface" alt="Logrr" />
 			<ul class='nav'>
-				<li class="current"><a href='/'>SysLog Messages</a></li>
-				<li><a href='/'>Inputs</a></li>
-				<li><a href='/'>Devices</a></li>
+				<li class="current"><a href='/#/'>SysLog Messages</a></li>
+				<li><a href='/#/inputs'>Inputs</a></li>
+				<li><a href='/#/devices'>Devices</a></li>
 			</ul>
 		</div>
 	  
