@@ -9,6 +9,13 @@ We took [Codeigniter][6] and borrowed the css from [Resque][2], mixed in a littl
 [jQuery BBQ][3] hooked it up to the mysql [rsyslog][4] logs and tied it all
 together with a little [PHP pChart][5]. Simple!
 
+Screenshots
+-----------
+
+<img src="https://github.com/pyhub/logrr/raw/master/screenshot1.png" width="600" alt="Screenshot 1" />
+
+<img src="https://github.com/pyhub/logrr/raw/master/screenshot2.png" width="600" alt="Screenshot 1" />
+
 Want to contribute? Great! Fork me!
 
 Installation
