@@ -17,15 +17,15 @@
 			<img src="/static/images/logo.png" width="" height="" title="Logrr - A Syslog Logging Interface" alt="Logrr" />
 			<ul class='nav'>
 				<li class="current"><a href='/#/'>SysLog Messages</a></li>
-				<li><a href='/#/inputs'>Inputs</a></li>
-				<li><a href='/#/devices'>Devices</a></li>
+				<li><a href="#/inputs">Inputs</a></li>
+				<li><a href="#/devices">Devices</a></li>
 			</ul>
 		</div>
 	  
 		<ul class='subnav'>
-			<li><a href='/#/priority/-1'>All Messages</a></li>
+			<li><a href="#/" class="current">All Messages</a></li>
 			<?php foreach ($priorities as $key => $value): ?>
-				<li><a href='/#/priority/<?php echo $key; ?>'><?php echo $value; ?></a></li>
+				<li><a href="#/priority/<?php echo $key; ?>"><?php echo $value; ?></a></li>
 			<?php endforeach; ?>
 		</ul>
 		
@@ -60,7 +60,7 @@
 							echo date('Y-m-d H:i:s', $date->format('U') + $offset);
 						?>
 					</td>
-					<td valign="top"><a href="/#/host/<?php echo $log->FromHost; ?>"><?php echo $log->FromHost; ?></a></td>
+					<td valign="top"><a href="#/host/<?php echo $log->FromHost; ?>"><?php echo $log->FromHost; ?></a></td>
 					<td valign="top"><?php echo str_replace(':', '', $log->SysLogTag); ?></td>
 					<td valign="top">
 						<center>
@@ -106,10 +106,12 @@
 				var cache = { '': $('.bbq-default') };
 				
 				$(window).bind( 'hashchange', function(e) {
-				  
+					
+					$( '.subnav li.current' ).removeClass( 'current' );
+					
 					var url = $.param.fragment();
 					$( '#main' ).children( ':visible' ).hide();
-					url && $( 'a[href="#' + url + '"]' ).addClass( 'bbq-current' );
+					url && $( 'a[href="#' + url + '"]' ).parent().addClass( 'current' );
 					
 					if (!url) url = '/';
 					
