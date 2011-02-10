@@ -36,7 +36,7 @@
 <?php endif; ?>
 
 			<h1 class='wi'>Log History</h1>
-			<center><img src="<?php echo $graph; ?>" /></center>
+			<center><img src="<?php echo $graph; ?>" width="1100" height="200" alt="<?php echo $title; ?>" /></center>
 			
 			<h1 class='wi'><?php echo $title; ?></h1>
 			<p class='intro'>The list below contains all recent syslog messages.</p>
