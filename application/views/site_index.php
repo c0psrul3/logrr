@@ -5,7 +5,7 @@
 <html>
 	
 	<head>
-		<title>Syslog Web</title>
+		<title>LogrrApp</title>
 		<link href="/static/css/reset.css" media="screen" rel="stylesheet" type="text/css">
 		<link href="/static/css/style.css" media="screen" rel="stylesheet" type="text/css">
 		<script src="/static/js/jquery.1.5.js" type="text/javascript"></script>
@@ -23,6 +23,10 @@
 		</div>
 	  
 		<ul class='subnav'>
+			<li><a href='/#/priority/-1'>All Messages</a></li>
+			<?php foreach ($priorities as $key => $value): ?>
+				<li><a href='/#/priority/<?php echo $key; ?>'><?php echo $value; ?></a></li>
+			<?php endforeach; ?>
 		</ul>
 		
 		<div id="main">
