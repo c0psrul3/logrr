@@ -23,7 +23,7 @@
 		</div>
 	  
 		<ul class='subnav'>
-			<li><a href="#/" class="current">All Messages</a></li>
+			<li class="current"><a href="#/">All Messages</a></li>
 			<?php foreach ($priorities as $key => $value): ?>
 				<li><a href="#/priority/<?php echo $key; ?>"><?php echo $value; ?></a></li>
 			<?php endforeach; ?>
@@ -110,10 +110,10 @@
 					$( '.subnav li.current' ).removeClass( 'current' );
 					
 					var url = $.param.fragment();
+					if (!url) url = '/';
+					
 					$( '#main' ).children( ':visible' ).hide();
 					url && $( 'a[href="#' + url + '"]' ).parent().addClass( 'current' );
-					
-					if (!url) url = '/';
 					
 					if ( cache[ url ] ) {
 						cache[ url ].show();
