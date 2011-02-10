@@ -1,0 +1,31 @@
+
+AddEncoding x-gzip .gz .tgz
+
+<IfModule mod_rewrite.c>
+
+    RewriteEngine On
+    RewriteBase /
+
+    #Checks to see if the user is attempting to access a valid file,
+    #such as an image or css document, if this isn't true it sends the
+    #request to index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    #This last condition enables access to the images and css folders, and the robots.txt file
+    #Submitted by Michael Radlmaier (mradlmaier)
+    RewriteCond $1 !^(index\.php|images|robots\.txt|css)
+    RewriteRule ^(.*)$ index.php?/$1 [L]
+    
+    ## Block Access to .svn directories
+    RewriteRule ^(.*/)?\.svn/ - [F,L]
+    ErrorDocument 403 "Access Forbidden"
+    
+    ## Block access to git dir
+    RewriteRule ^.git - [F,L]
+    ErrorDocument 403 "Access Forbidden"
+    
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    
+</IfModule>
+
