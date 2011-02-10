@@ -14,13 +14,15 @@
 
 	<body>
 		<div class="header">
+			<img src="/static/images/logo.png" width="" height="" title="Logrr - A Syslog Logging Interface" alt="Logrr" />
 			<ul class='nav'>
-				<li><a href='/'>Syslog Messages</a></li>
+				<li class="current"><a href='/'>SysLog Messages</a></li>
+				<li><a href='/'>Inputs</a></li>
+				<li><a href='/'>Devices</a></li>
 			</ul>
 		</div>
 	  
 		<ul class='subnav'>
-		
 		</ul>
 		
 		<div id="main">
@@ -29,12 +31,13 @@
 			
 <?php endif; ?>
 
+			<h1 class='wi'>Log History</h1>
+			<center><img src="/graph/base/day" /></center>
+			
 			<h1 class='wi'>Recent Syslog Messages</h1>
-		
 			<p class='intro'>The list below contains all recent syslog messages.</p>
 			
 			<table class='workers'>
-				<caption><center><img src="/graph/base/day" /></center></caption>
 				<tr>
 					<th width="150">Date</th>
 					<th width="100">Host</th>

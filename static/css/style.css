@@ -8,6 +8,8 @@ body { padding:0; margin:0; }
 .header ul li a:hover { background:#333;}
 .header ul li.current a { background:#ce1212; font-weight:bold; color:#fff;}
 
+.header img { float:right; }
+
 .subnav { padding:2px 5% 7px 5%; background:#ce1212; font-size:90%;}
 .subnav li { display:inline;}
 .subnav li a { color:#fff; text-decoration:none; margin-right:10px; display:inline-block; background:#dd5b5b; padding:5px; -webkit-border-radius:3px; -moz-border-radius:3px;}
@@ -75,6 +77,10 @@ body { padding:0; margin:0; }
 #main p.pagination a.more { float:right;}
 
 #main form.clear-failed {float:right; margin-top:-10px;}
+
+#timezone {
+    color: #FFF;
+}
 
 ul.pagination{
     list-style-type: none;
