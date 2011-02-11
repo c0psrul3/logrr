@@ -4,6 +4,7 @@
         
         
         private $priorities = array(
+            '-1' => 'All',
             '0' => 'Emergency',
             '1' => 'Alert',
             '2' => 'Critical',
@@ -23,17 +24,19 @@
         /**
          *
          */
-        function chart($extra = 'base', $period = 'day', $timezone = 'EST') {
+        function chart($type = 'all', $extra = 'all', $period = 'day', $timezone = 'EST') {
             
             require_once APPPATH.'third_party/pData.php';
             require_once APPPATH.'third_party/pChart.php';
             
-            if ($extra == '-1') {
+            if ($type == 'all' || $extra == '-1') {
                 $this->_drawGraph($this->_getStats('-24 hours', $timezone), sprintf('Log Messages Received per Hour'));
-            } elseif (is_numeric($extra)) {
+            } elseif ($type == 'priority') {
                 $this->_drawGraph($this->_getStatsByPriority($extra, '-24 hours', $timezone), sprintf('Log Messages Received per Hour for Priority:%s', $this->priorities[$extra]));
-            } else {
+            } elseif ($type == 'host') {
                 $this->_drawGraph($this->_getStatsByHost($extra, '-24 hours', $timezone), sprintf('Log Messages Received per Hour for Host:%s', $extra));
+            } elseif ($type == 'input') {
+                $this->_drawGraph($this->_getStatsByInput($extra, '-24 hours', $timezone), sprintf('Log Messages Received per Hour for Input:%s', $extra));
             }
             
         }
@@ -173,6 +176,13 @@
         /**
          *
          */
+        function _getStatsByInput($input, $timeframe, $timezone = 'EST') {
+            return $this->_getStatsFormatted(4, $input, $timeframe, $timezone);
+        }
+        
+        /**
+         *
+         */
         function _getStatsFormatted($type, $extra, $timeframe, $timezone = 'EST') {
             
             $system_timezone = new DateTimeZone('UTC');
@@ -232,6 +242,24 @@
                     ", array(
                         date('Y-m-d', $next_date),
                         $extra
+                    ));
+                    break;
+                case 4:
+                    $result = $CI->db->query("
+                        SELECT 
+                            `ReceivedAt`, 
+                            COUNT(*) as `count`
+                        FROM `SystemEvents`
+                        WHERE 
+                            `ReceivedAt` >= ? AND
+                            `SysLogTag` LIKE ?
+                        GROUP BY
+                            YEAR(`ReceivedAt`), MONTH(`ReceivedAt`), DAY(`ReceivedAt`), HOUR(`ReceivedAt`)
+                        ORDER BY 
+                            `ReceivedAt` DESC;
+                    ", array(
+                        date('Y-m-d', $next_date),
+                        $extra.'%'
                     ));
                     break;
             }
