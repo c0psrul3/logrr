@@ -24,9 +24,9 @@
 	  
 		<ul class='subnav'>
 			<li class="current"><a href="#/messages">All Messages</a></li>
-			<?php foreach ($priorities as $key => $value): ?>
-				<li><a href="#/messages/priority/<?php echo $key; ?>"><?php echo $value; ?></a></li>
-			<?php endforeach; ?>
+				<?php foreach ($toolbaritems as $key => $value): ?>
+					<li><a href="#/messages/priority/<?php echo $key; ?>"><?php echo $value; ?></a></li>
+				<?php endforeach; ?>
 			<li class="search">
 				<form action="/messages/search" method="GET">
 					Search SysLog Messages: <input type="text" name="q" value=""> <button type="submit">Search</button>

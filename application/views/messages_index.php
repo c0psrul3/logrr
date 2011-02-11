@@ -1,4 +1,4 @@
-<?php $this->load->view('template_top'); ?>
+<?php $this->load->view('template_top', array('toolbaritems' => $toolbaritems)); ?>
 
     <h1 class='wi'>Log History</h1>
     <center><img src="<?php echo $graph; ?>" width="1100" height="200" alt="<?php echo $title; ?>" /></center>
@@ -26,7 +26,7 @@
                 ?>
             </td>
             <td valign="top"><a href="#/messages/host/<?php echo $log->FromHost; ?>"><?php echo $log->FromHost; ?></a></td>
-            <td valign="top"><?php echo str_replace(':', '', $log->SysLogTag); ?></td>
+            <td valign="top"><a href="#/messages/input/<?php echo preg_replace('#([\[](.*)[\]:?])#e', '', $log->SysLogTag); ?>"><?php echo preg_replace('#([\[](.*)[\]:?])#e', '', $log->SysLogTag); ?></td>
             <td valign="top">
                 <center>
                     <?php

@@ -13,8 +13,32 @@ class Inputs extends CI_Controller {
 	 *
 	 */
 	function index() {
-		$this->load->view('inputs_index');
+		$this->load->view('inputs_index', array(
+            'inputs' => $this->_getAllInputs()
+        ));
 	}
+    
+    /**
+     *
+     */
+    function _getAllInputs() {
+        
+        $results = $this->db->query("
+            SELECT 
+                LEFT(SysLogTag, LOCATE('[',SysLogTag) - 1) as `SysLogTag`, 
+                LEFT(SysLogTag, LOCATE('[',SysLogTag) - 1) as `SysLogTag1`, 
+                COUNT(*) as `count`
+            FROM `SystemEvents`
+			WHERE `SysLogTag` != ''
+            GROUP BY
+                `SysLogTag1`
+            ORDER BY 
+                `SysLogTag1` ASC;
+        ");
+        
+        return $results->result();
+        
+    }
 	
 }
 

@@ -13,25 +13,25 @@ class Devices extends CI_Controller {
 	 *
 	 */
 	function index() {
-		$this->load->view('devices_index', array(
-            'devices' => $this->_getAllDevices()
+		$this->load->view('inputs_index', array(
+            'inputs' => $this->_getAllInputs()
         ));
 	}
     
     /**
      *
      */
-    function _getAllDevices() {
+    function _getAllInputs() {
         
         $results = $this->db->query("
             SELECT 
-                `FromHost`, 
+                `Tag`, 
                 COUNT(*) as `count`
             FROM `SystemEvents`
             GROUP BY
-                `FromHost`
+                `Tag`
             ORDER BY 
-                `FromHost` ASC;
+                `Tag` ASC;
         ");
         
         return $results->result();
@@ -40,5 +40,5 @@ class Devices extends CI_Controller {
 	
 }
 
-/* End of file devices.php */
-/* Location: ./application/controllers/devices.php */
+/* End of file inputs.php */
+/* Location: ./application/controllers/inputs.php */
